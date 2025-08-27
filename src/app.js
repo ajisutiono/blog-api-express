@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 
-const notesRoute = require('./routes/NotesRoute');
+const postsRoute = require('./routes/PostsRoute');
 
 const app = express();
 
@@ -10,6 +10,6 @@ app.use(cors());
 app.use(express.json());
 
 // routes
-app.use('/notes', notesRoute);
+app.use('/posts', postsRoute);
 
 module.exports = app;

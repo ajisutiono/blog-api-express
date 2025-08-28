@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 
-const postsRoute = require('./routes/PostsRoute');
+const postsRoute = require('./routes/postsRoute');
 
 const app = express();
 

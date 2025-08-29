@@ -1,3 +1,5 @@
+const NotFoundError = require("../exceptions/NotFoundError");
+
 const createPostsController = (postsService) => {
   const createPost = (req, res) => {
     const { title, tags, body } = req.body;
@@ -25,18 +27,15 @@ const createPostsController = (postsService) => {
     const { id } = req.params;
     const post = postsService.getById(id);
 
-    if (post) {
-      return res.json({
-        status: "success",
-        data: {
-          post
-        },
-      });
+    if (!post) {
+      throw new NotFoundError("Post id not found");
     }
 
-    return res.status(404).json({
-      status: "fail",
-      message: "Post id not found",
+    return res.json({
+      status: "success",
+      data: {
+        post,
+      },
     });
   };
 
@@ -46,16 +45,13 @@ const createPostsController = (postsService) => {
 
     const updated = postsService.update(id, { title, tags, body });
 
-    if (updated) {
-      return res.json({
-        status: "success",
-        message: "Post changed successfully",
-      });
+    if (!updated) {
+      throw new NotFoundError("Post id not found");
     }
 
-    return res.status(404).json({
-      status: "fail",
-      message: "Post id not found",
+    return res.json({
+      status: "success",
+      message: "Post changed successfully",
     });
   };
 
@@ -64,16 +60,13 @@ const createPostsController = (postsService) => {
 
     const deleted = postsService.destroy(id);
 
-    if (deleted) {
-      return res.json({
-        status: "success",
-        message: "Post deleted successfully",
-      });
+    if (!deleted) {
+      throw new NotFoundError("Post id not found");
     }
 
-    return res.status(404).json({
-      status: "fail",
-      message: "Post id not found",
+    return res.json({
+      status: "success",
+      message: "Post deleted successfully",
     });
   };
 

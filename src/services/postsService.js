@@ -1,48 +1,38 @@
-const { nanoid } = require("nanoid");
+const InvariantError = require("../exceptions/InvariantError");
 
 const createPostsService = (postsModel) => {
-  const create = ({ title, tags, body }) => {
-    const id = nanoid(16);
-    const created_at = new Date().toDateString();
-    const updated_at = created_at;
+  const create = async ({ title, tags, body }) => {
+    const id = await postsModel.create({ title, tags, body });
 
-    const newPost = { id, title, tags, body, created_at, updated_at };
-    postsModel.push(newPost);
+    if (!id) {
+      throw new InvariantError("Post failed to add");
+    }
 
     return id;
   };
 
-  const getAll = () => postsModel;
+  const getAll = async () => await postsModel.findAll();
 
-  const getById = (id) => postsModel.find((post) => post.id === id);
+  const getById = async (id) => await postsModel.findById(id);
 
-  const update = (id, { title, tags, body }) => {
-    const index = postsModel.findIndex((post) => post.id === id);
-    const updated_at = new Date().toTimeString();
+  const update = async (id, { title, tags, body }) => {
+    const updated = await postsModel.update(id, { title, tags, body });
 
-    if (index !== -1) {
-      postsModel[index] = {
-        ...postsModel[index],
-        title,
-        tags,
-        body,
-        updated_at,
-      };
-      return true;
+    if (!updated) {
+      throw new InvariantError("Post failed to update");
     }
 
-    return false;
+    return updated;
   };
 
-  const destroy = (id) => {
-    const index = postsModel.findIndex((post) => post.id === id);
+  const destroy = async (id) => {
+    const deleted = await postsModel.destroy(id);
 
-    if (index !== -1) {
-      postsModel.splice(index, 1);
-      return true;
+    if (!deleted) {
+      throw new InvariantError("Post failed to delete");
     }
 
-    return false;
+    return deleted;
   };
 
   return { create, getAll, getById, update, destroy };

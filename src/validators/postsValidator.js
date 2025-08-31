@@ -1,4 +1,4 @@
-const { body, param } = require("express-validator");
+const { body } = require("express-validator");
 
 const basePostValidator = [
   body("title")
@@ -24,10 +24,4 @@ const createPostValidator = basePostValidator;
 
 const updatePostValidator = basePostValidator;
 
-const idParamValidator = [
-  param("id")
-    .isLength({ min: 16, max: 16 })
-    .withMessage("Id must be 16 characters long"),
-];
-
-module.exports = { createPostValidator, updatePostValidator, idParamValidator };
+module.exports = { createPostValidator, updatePostValidator };

@@ -9,7 +9,6 @@ const createPostsController = require("../controllers/postsController");
 // validator s
 const {
   createPostValidator,
-  idParamValidator,
   updatePostValidator,
 } = require("../validators/postsValidator");
 
@@ -27,11 +26,11 @@ router.post(
   [createPostValidator, validateRequest],
   postsController.createPost
 );
-router.get("/", postsController.getAllPost);
+router.get("/", postsController.getAllPosts);
 router.get("/:id", postsController.getPostById);
 router.put(
   "/:id",
-  [idParamValidator, updatePostValidator, validateRequest],
+  [updatePostValidator, validateRequest],
   postsController.editPost
 );
 router.delete("/:id", postsController.deletePost);

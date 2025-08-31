@@ -4,6 +4,10 @@ exports.up = (pgm) => {
       type: "VARCHAR(50)",
       primaryKey: true,
     },
+    title: {
+      type: "TEXT",
+      notNull: true,
+    },
     body: {
       type: "TEXT",
       notNull: true,

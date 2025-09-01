@@ -1,6 +1,6 @@
 const { body } = require("express-validator");
 
-const basePostValidator = [
+const postValidator = [
   body("title")
     .isString()
     .withMessage("Title must be a string")
@@ -20,8 +20,4 @@ const basePostValidator = [
     .withMessage("Tags must be an array of strings"),
 ];
 
-const createPostValidator = basePostValidator;
-
-const updatePostValidator = basePostValidator;
-
-module.exports = { createPostValidator, updatePostValidator };
+module.exports = { postValidator };

@@ -10,6 +10,7 @@ const { postValidator } = require("../validators/postsValidator");
 
 //middlewares
 const validateRequest = require("../middlewares/validateRequest");
+const authenticateToken = require("../middlewares/authenticateToken");
 
 const router = express.Router();
 
@@ -18,10 +19,10 @@ const postsService = createPostsService(postsModel);
 const postsController = createPostsController(postsService);
 
 // routes
-router.post("/", [postValidator, validateRequest], postsController.createPost);
-router.get("/", postsController.getAllPosts);
-router.get("/:id", postsController.getPostById);
-router.put("/:id", [postValidator, validateRequest], postsController.editPost);
-router.delete("/:id", postsController.deletePost);
+router.post("/", [authenticateToken, postValidator, validateRequest], postsController.createPost);
+router.get("/", authenticateToken, postsController.getAllPosts);
+router.get("/:id", authenticateToken, postsController.getPostById);
+router.put("/:id", [authenticateToken, postValidator, validateRequest], postsController.editPost);
+router.delete("/:id", authenticateToken, postsController.deletePost);
 
 module.exports = router;

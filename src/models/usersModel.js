@@ -46,6 +46,16 @@ const usersModel = {
     const result = await pool.query(query);
     return result.rowCount > 0;
   },
+
+  async verifyCredential(email) {
+    const query = {
+      text: "SELECT id, username, password FROM users WHERE email = $1",
+      values: [email],
+    };
+
+    const result = await pool.query(query);
+    return result.rows[0];
+  },
 };
 
 module.exports = usersModel;

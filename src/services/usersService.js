@@ -1,4 +1,6 @@
 const InvariantError = require("../exceptions/InvariantError");
+const AuthenticationError = require("../exceptions/AuthenticationError");
+const bcrypt = require("bcrypt");
 
 const createUsersService = (usersModel) => {
   const createNewUser = async ({ username, email, password, fullname }) => {
@@ -30,7 +32,28 @@ const createUsersService = (usersModel) => {
 
   const getUserById = async (userId) => await usersModel.findUserId(userId);
 
-  return { createNewUser, getUserById };
+  const verifyUserCredential = async (email, password) => {
+    const user = await usersModel.verifyCredential(email);
+
+    if (!user) {
+      throw new AuthenticationError(
+        "The credentials you provided are invalid."
+      );
+    }
+
+    const { id, password: hashedPassword } = user;
+
+    const match = await bcrypt.compare(password, hashedPassword);
+
+    if (!match) {
+      throw new AuthenticationError(
+        "The credentials you provided are invalid."
+      );
+    }
+    return id;
+  };
+
+  return { createNewUser, getUserById, verifyUserCredential };
 };
 
 module.exports = createUsersService;

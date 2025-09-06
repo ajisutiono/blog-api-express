@@ -3,8 +3,8 @@ const express = require("express");
 // factory
 const authsModel = require("../models/authenticationsModel");
 const usersModel = require("../models/usersModel");
-const createAuthenticationsService = require("../services/authsService");
-const createAuthenticationsController = require("../controllers/authsController");
+const createAuthenticationsService = require("../services/authenticationsService");
+const createAuthenticationsController = require("../controllers/authenticationsController");
 const createUsersService = require("../services/usersService");
 const tokenManager = require("../config/token");
 
@@ -13,7 +13,7 @@ const {
   PostAuthenticationValidator,
   PutAuthenticationValidator,
   DeleteAuthenticationValidator,
-} = require("../validators/authsValidator");
+} = require("../validators/authenticationsValidator");
 
 // middlware
 const validateRequest = require("../middlewares/validateRequest");

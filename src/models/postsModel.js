@@ -2,14 +2,14 @@ const { nanoid } = require("nanoid");
 const pool = require("../config/database");
 
 const postsModel = {
-  async create({ title, tags, body }) {
+  async create({ title, tags, body, author }) {
     const id = `post-${nanoid(16)}`;
-    const created_at = new Date().toDateString();
+    const created_at = new Date().toISOString();
     const updated_at = created_at;
 
     const query = {
-      text: "INSERT INTO posts (id, title, body, tags, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id",
-      values: [id, title, body, tags, created_at, updated_at],
+      text: "INSERT INTO posts (id, title, body, tags, created_at, updated_at, author) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id",
+      values: [id, title, body, tags, created_at, updated_at, author],
     };
 
     const result = await pool.query(query);
@@ -17,8 +17,11 @@ const postsModel = {
     return result.rows[0].id;
   },
 
-  async findAll() {
-    const query = "SELECT * FROM posts";
+  async findAll(author) {
+    const query = {
+      text: "SELECT * FROM posts WHERE author = $1",
+      values: [author],
+    };
     const result = await pool.query(query);
 
     return result.rows;
@@ -53,6 +56,16 @@ const postsModel = {
 
     const result = await pool.query(query);
     return result.rowCount > 0;
+  },
+
+  async verifyPostAuthor(id) {
+    const query = {
+      text: "SELECT * FROM posts WHERE id = $1",
+      values: [id],
+    };
+
+    const result = await pool.query(query);
+    return result.rows[0];
   },
 };
 

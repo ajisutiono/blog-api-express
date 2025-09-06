@@ -4,7 +4,8 @@ const catchAsync = require("../utils/catchAsync");
 const createPostsController = (postsService) => {
   const createPost = catchAsync(async (req, res) => {
     const { title, tags, body } = req.body;
-    const id = await postsService.create({ title, tags, body });
+    const { id: credentialId } = req.user;
+    const id = await postsService.create({ title, tags, body, author: credentialId });
 
     res.status(201).json({
       status: "success",
@@ -16,16 +17,21 @@ const createPostsController = (postsService) => {
   });
 
   const getAllPosts = catchAsync(async (req, res) => {
+    const { id: credentialId } = req.user;
+    const posts = await postsService.getAll(credentialId);
     res.json({
       status: "success",
       data: {
-        posts: await postsService.getAll(),
+        posts,
       },
     });
   });
 
   const getPostById = catchAsync(async (req, res) => {
     const { id } = req.params;
+    const { id: credentialId } = req.user;
+
+    await postsService.verifyPostAuthor(id, credentialId);
     const post = await postsService.getById(id);
 
     if (!post) {
@@ -43,6 +49,9 @@ const createPostsController = (postsService) => {
   const editPost = catchAsync(async (req, res) => {
     const { id } = req.params;
     const { title, tags, body } = req.body;
+    const { id: credentialId } = req.user;
+
+    await postsService.verifyPostAuthor(id, credentialId);
 
     const updated = await postsService.update(id, { title, tags, body });
 
@@ -58,6 +67,9 @@ const createPostsController = (postsService) => {
 
   const deletePost = catchAsync(async (req, res) => {
     const { id } = req.params;
+    const { id: credentialId } = req.user;
+
+    await postsService.verifyPostAuthor(id, credentialId);
 
     const deleted = await postsService.destroy(id);
 

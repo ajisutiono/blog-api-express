@@ -3,7 +3,7 @@ const cors = require("cors");
 
 const postsRoute = require("./routes/postsRoute");
 const usersRoute = require("./routes/usersRoute");
-const authsRoute = require("./routes/authsRoute");
+const authsRoute = require("./routes/authenticationsRoute");
 const errorHandler = require("./middlewares/errorHandler");
 
 const app = express();

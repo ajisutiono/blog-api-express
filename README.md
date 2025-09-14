@@ -184,14 +184,14 @@ Import the Postman Collection and Environment from the tests/ folder.
 📬 RabbitMQ Example
 
 When a post is updated, an event is published to RabbitMQ:
-
+~~~
 {
   "event": "POST_UPDATED",
   "postId": "post-123",
   "updatedBy": "user-456",
   "timestamp": "2025-09-14T12:00:00Z"
 }
-
+~~~
 
 A consumer can read this event for logging or further processing.
 
@@ -200,10 +200,10 @@ A consumer can read this event for logging or further processing.
 
 
 ⚡ Redis Example
-	* GET /posts → Check Redis cache (posts:all).
-	* GET /posts/:id → Check Redis cache (posts:{id}).
-	* If not cached, fetch from DB and store in Redis.
-	* PUT /posts/:id or DELETE /posts/:id → Invalidate related cache.
+* GET /posts → Check Redis cache (posts:all).
+* GET /posts/:id → Check Redis cache (posts:{id}).
+* If not cached, fetch from DB and store in Redis.
+* PUT /posts/:id or DELETE /posts/:id → Invalidate related cache.
 
 
 

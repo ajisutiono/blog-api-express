@@ -13,6 +13,8 @@ Blog API is an Express.js project that implements a RESTful API with the followi
 👥 Collaboration on Blog Posts (owners can grant edit access to other users, with restrictions)
 
 
+																							
+
 
 
 
@@ -49,6 +51,9 @@ Blog API is an Express.js project that implements a RESTful API with the followi
 
 
 
+																					
+
+
 
 
 
@@ -60,6 +65,9 @@ Blog API is an Express.js project that implements a RESTful API with the followi
 	* Message Broker: RabbitMQ
 	* Testing: Postman or Newman
 	* Optional: Docker (for Redis & RabbitMQ services)
+
+
+
 
 
 
@@ -102,6 +110,10 @@ blog/
 
 
 
+																	
+
+
+																	
 
 
 
@@ -145,20 +157,20 @@ blog/
 
 📡 API Endpoints
 1. Auth
-	POST /authentications → Register accessToken and refreshToken JWT
-	PUT /authentications → Edit expired accessToken with refreshToken
-	DELETE /authentication → Delete all tokens
+	* POST /authentications → Register accessToken and refreshToken JWT
+	* PUT /authentications → Edit expired accessToken with refreshToken
+	* DELETE /authentication → Delete all tokens
 
 2. Posts
-	POST /posts → Create a new post (requires authentication)
-	GET /posts → Get all posts (cached with Redis)
-	GET /posts/:id → Get post details (cached with Redis)
-	PUT /posts/:id → Update a post (owner or collaborator)
-	DELETE /posts/:id → Delete a post (owner only)
+	* POST /posts → Create a new post (requires authentication)
+	* GET /posts → Get all posts (cached with Redis)
+	* GET /posts/:id → Get post details (cached with Redis)
+	* PUT /posts/:id → Update a post (owner or collaborator)
+	* DELETE /posts/:id → Delete a post (owner only)
 
 3. Collaboration
-	POST /posts/:id/collaborations → Add a collaborator
-	GET /posts/:id/collaborations → Get collaborators list
+	* POST /posts/:id/collaborations → Add a collaborator
+	* GET /posts/:id/collaborations → Get collaborators list
 
 
 

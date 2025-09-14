@@ -157,7 +157,8 @@ blog/
 
 
 
-## 📡 API Endpoints
+## 
+📡 API Endpoints
 1. Auth
 	* POST /authentications → Register accessToken and refreshToken JWT
 	* PUT /authentications → Edit expired accessToken with refreshToken

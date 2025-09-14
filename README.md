@@ -58,6 +58,7 @@ Blog API is an Express.js project that implements a RESTful API with the followi
 
 
 🛠️ Tech Stack
+`
 	* Runtime: Node.js + Express.js
 	* Database: PostgreSQL / MySQL (choose based on setup)
 	* Authentication: JWT

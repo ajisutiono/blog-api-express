@@ -1,6 +1,7 @@
 # blog-api-express
 
-## Blog API is an Express.js project that implements a RESTful API with the following features:
+## 
+Blog API is an Express.js project that implements a RESTful API with the following features:
 
 🔐 Authentication & Authorization with JWT
 
@@ -18,7 +19,8 @@
 
 
 
-## 🚀 Main Features
+## 
+🚀 Main Features
 
 1. Authentication & Authorization
 	* User registration and login with JWT
@@ -53,7 +55,8 @@
 
 																					
 
-## 🛠️ Tech Stack
+## 
+🛠️ Tech Stack
 
 * Runtime: Node.js + Express.js
 * Database: PostgreSQL / MySQL (choose based on setup)
@@ -71,7 +74,8 @@
 
 
 
-## 📂 Project Structure
+## 
+📂 Project Structure
 
 blog/
 
@@ -114,7 +118,8 @@ blog/
 
 
 
-## ⚙️ Installation
+## 
+⚙️ Installation
 
 1. Clone the repository:
    ```bash
@@ -172,7 +177,8 @@ blog/
 
 
 
-## 🧪 Testing
+## 
+🧪 Testing
 
 Import the Postman Collection and Environment from the tests/ folder.
 
@@ -181,7 +187,8 @@ Import the Postman Collection and Environment from the tests/ folder.
 
 
 
-## 📬 RabbitMQ Example
+## 
+📬 RabbitMQ Example
 
 When a post is updated, an event is published to RabbitMQ:
 ~~~
@@ -199,7 +206,8 @@ A consumer can read this event for logging or further processing.
 
 
 
-## ⚡ Redis Example
+## 
+⚡ Redis Example
 * GET /posts → Check Redis cache (posts:all).
 * GET /posts/:id → Check Redis cache (posts:{id}).
 * If not cached, fetch from DB and store in Redis.
@@ -209,6 +217,7 @@ A consumer can read this event for logging or further processing.
 
 
 
-## 📜 License
+## 
+📜 License
 
 This project is licensed under the MIT License.

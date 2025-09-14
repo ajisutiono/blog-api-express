@@ -31,21 +31,21 @@ Blog API is an Express.js project that implements a RESTful API with the followi
 		* Collaborators cannot delete the post
 
 3. Collaboration
-		* Owners can add users as collaborators
-		* Collaborators can update posts
-		* Collaboration events are published to RabbitMQ
+	* Owners can add users as collaborators
+	* Collaborators can update posts
+	* Collaboration events are published to RabbitMQ
 
 4. Redis Caching
-		* Cache responses for getAllPosts and getPostById
-		* Cache invalidation when posts are updated or deleted
+	* Cache responses for getAllPosts and getPostById
+	* Cache invalidation when posts are updated or deleted
 
 5. RabbitMQ Integration
-		* Events (e.g., post updates or collaboration actions) are published to RabbitMQ
-		* Consumers can process events for logging or integration with other services
+	* Events (e.g., post updates or collaboration actions) are published to RabbitMQ
+	* Consumers can process events for logging or integration with other services
 
 6. TDD with Postman
-		* Postman collection included for all endpoints
-		* Automated testing using Postman
+	* Postman collection included for all endpoints
+	* Automated testing using Postman
 
 
 

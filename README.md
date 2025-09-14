@@ -49,42 +49,60 @@ Blog API is an Express.js project that implements a RESTful API with the followi
 
 
 
+
+
+
 🛠️ Tech Stack
+	* Runtime: Node.js + Express.js
+	* Database: PostgreSQL / MySQL (choose based on setup)
+	* Authentication: JWT
+	* Caching: Redis
+	* Message Broker: RabbitMQ
+	* Testing: Postman or Newman
+	* Optional: Docker (for Redis & RabbitMQ services)
 
-Runtime: Node.js + Express.js
 
-Database: PostgreSQL / MySQL (choose based on setup)
 
-Authentication: JWT
-
-Caching: Redis
-
-Message Broker: RabbitMQ
-
-Testing: Postman + Newman
-
-Optional: Docker (for Redis & RabbitMQ services)
 
 
 
 📂 Project Structure
 
 blog/
+
 ├── src/
+
 │   ├── config/        # JWT, DB, Redis, RabbitMQ, auth token configuration
+
 │   ├── controllers/   # Controller logic to client
+
 │   ├── exceptions/    # error handling
+
 │   ├── middlewares/   # Authentication & authorization, validation, token manager middleware
+
 │   ├── models/        # Database models
+
 │   ├── routes/        # API routes
+
 │   ├── services/      # Business logic
+
 │   ├── utils/         # Helper functions
+
 │   ├── validators/    # rules validations
+
 │   ├── app.js/        # Express app entry point
+
 │   └── server.js      # Set server Express
+
 ├── test               # Collection and Environment postman
+
 ├── package.json
+
 └── README.md
+
+
+
+
 
 
 ⚙️ Installation
@@ -124,37 +142,33 @@ blog/
 
 
 
+
 📡 API Endpoints
-Auth
+1. Auth
+	POST /authentications → Register accessToken and refreshToken JWT
+	PUT /authentications → Edit expired accessToken with refreshToken
+	DELETE /authentication → Delete all tokens
 
-POST /authentications → Register accessToken and refreshToken JWT
+2. Posts
+	POST /posts → Create a new post (requires authentication)
+	GET /posts → Get all posts (cached with Redis)
+	GET /posts/:id → Get post details (cached with Redis)
+	PUT /posts/:id → Update a post (owner or collaborator)
+	DELETE /posts/:id → Delete a post (owner only)
 
-PUT /authentications → Edit expired accessToken with refreshToken
+3. Collaboration
+	POST /posts/:id/collaborations → Add a collaborator
+	GET /posts/:id/collaborations → Get collaborators list
 
-DELETE /authentication → Delete all tokens
 
-Posts
-
-POST /posts → Create a new post (requires authentication)
-
-GET /posts → Get all posts (cached with Redis)
-
-GET /posts/:id → Get post details (cached with Redis)
-
-PUT /posts/:id → Update a post (owner or collaborator)
-
-DELETE /posts/:id → Delete a post (owner only)
-
-Collaboration
-
-POST /posts/:id/collaborations → Add a collaborator
-
-GET /posts/:id/collaborations → Get collaborators list
 
 
 🧪 Testing
 
 Import the Postman Collection and Environment from the tests/ folder.
+
+
+
 
 
 
@@ -173,13 +187,19 @@ When a post is updated, an event is published to RabbitMQ:
 A consumer can read this event for logging or further processing.
 
 
+
+
+
 ⚡ Redis Example
+	* GET /posts → Check Redis cache (posts:all).
+	* GET /posts/:id → Check Redis cache (posts:{id}).
+	* If not cached, fetch from DB and store in Redis.
+	* PUT /posts/:id or DELETE /posts/:id → Invalidate related cache.
 
-GET /posts → Check Redis cache (posts:all).
 
-GET /posts/:id → Check Redis cache (posts:{id}).
 
-If not cached, fetch from DB and store in Redis.
 
-PUT /posts/:id or DELETE /posts/:id → Invalidate related cache.
 
+📜 License
+
+This project is licensed under the MIT License.

@@ -123,8 +123,9 @@ blog/
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/username/blog.git
+   git clone https://github.com/ajisutiono/blog-api-express
    cd blog
+
 2. Install dependencies:
     ```bash
     npm install
@@ -137,22 +138,32 @@ blog/
     ```bash
     PORT=3000
     DATABASE_URL=postgres://user:password@localhost:5432/blog
-    JWT_SECRET=your_secret_key
+   	ACCESS_TOKEN_KEY=generate_access_token
+	REFRESH_TOKEN_KEY=genearte_refresh_token
+	SMTP_HOST=sandbox.smtp.mailtrap.io
+	SMTP_PORT=port
+	SMTP_USER=user
+	SMTP_PASSWORD=password
+	RABBITMQ_SERVER=amqp://localhost
     REDIS_HOST=127.0.0.1
     REDIS_PORT=6379
-    RABBITMQ_URL=amqp://localhost
 
-5. Start Redis & RabbitMQ (via Docker):
+5. Start RabbitMQ (via Docker):
     ```bash
-    docker-compose up -d
+    docker pull rabbitmq:management
+	docker run --name rabbitmq -p 5672:5672 -p 15672:15672 -d rabbitmq:management
 
-6. Start the development server:
+   Login on http://localhost:15672 with user and password: guest.
+
+7. Start Redis
+
+6. Start the development api server:
     ```bash
     npm run start
     
-  or
+  and start listener message broker
     
-    npm run start:dev
+    node src/worker/postsWorker.js
 
 
 
@@ -194,15 +205,14 @@ Import the Postman Collection and Environment from the tests/ folder.
 When a post is updated, an event is published to RabbitMQ:
 ~~~
 {
-  "event": "POST_UPDATED",
-  "postId": "post-123",
-  "updatedBy": "user-456",
-  "timestamp": "2025-09-14T12:00:00Z"
+    "status": "success",
+    "message": "Export request queued"
 }
 ~~~
 
 A consumer can read this event for logging or further processing.
 
+And check sandboxes on https://mailtrap.io/inboxes
 
 
 

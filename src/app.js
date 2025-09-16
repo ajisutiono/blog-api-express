@@ -5,21 +5,27 @@ const postsRoute = require("./routes/postsRoute");
 const usersRoute = require("./routes/usersRoute");
 const authsRoute = require("./routes/authenticationsRoute");
 const collabsRoute = require("./routes/collaborationsRoute");
+const createExportRoute = require("./routes/exportRoute");
 const errorHandler = require("./middlewares/errorHandler");
 
-const app = express();
+function createApp(channel) {
+  const app = express();
 
-// middleware
-app.use(cors());
-app.use(express.json());
+  // middleware
+  app.use(cors());
+  app.use(express.json());
 
-// routes
-app.use("/posts", postsRoute);
-app.use("/users", usersRoute);
-app.use("/authentications", authsRoute);
-app.use("/collaborations", collabsRoute);
+  // routes
+  app.use("/posts", postsRoute);
+  app.use("/users", usersRoute);
+  app.use("/authentications", authsRoute);
+  app.use("/collaborations", collabsRoute);
+  app.use("/export", createExportRoute(channel)); // inject channel to route
 
-// error handler
-app.use(errorHandler);
+  // error handler
+  app.use(errorHandler);
 
-module.exports = app;
+  return app;
+}
+
+module.exports = createApp;

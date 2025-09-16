@@ -53,7 +53,9 @@ const createUsersService = (usersModel) => {
     return id;
   };
 
-  return { createNewUser, getUserById, verifyUserCredential };
+  const searchUsername = async (username) => await usersModel.findUsername(username);
+
+  return { createNewUser, getUserById, verifyUserCredential, searchUsername };
 };
 
 module.exports = createUsersService;

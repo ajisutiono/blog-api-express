@@ -37,7 +37,19 @@ const createUsersController = (usersService) => {
     });
   });
 
-  return { createUser, getUserById };
+  const searchUsersByUsername = catchAsync(async (req, res) => {
+    const { username = "" } = req.query;
+    const users = await usersService.searchUsername(username);
+
+    res.json({
+      status: "success",
+      data: {
+        users,
+      },
+    });
+  });
+
+  return { createUser, getUserById, searchUsersByUsername };
 };
 
 module.exports = createUsersController;

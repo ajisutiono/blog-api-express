@@ -56,6 +56,16 @@ const usersModel = {
     const result = await pool.query(query);
     return result.rows[0];
   },
+
+  async findUsername(username) {
+    const query = {
+      text: "SELECT id, username, fullname FROM users WHERE username LIKE $1",
+      values: [`%${username}%`],
+    };
+
+    const result = await pool.query(query);
+    return result.rows;
+  },
 };
 
 module.exports = usersModel;

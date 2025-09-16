@@ -20,5 +20,6 @@ const usersController = createUsersController(usersService);
 // routes
 router.post('/', [userValidator, validateRequest], usersController.createUser);
 router.get('/:id', usersController.getUserById);
+router.get('/', usersController.searchUsersByUsername);
 
 module.exports = router;

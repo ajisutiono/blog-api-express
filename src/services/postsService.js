@@ -2,7 +2,7 @@ const InvariantError = require("../exceptions/InvariantError");
 const NotFoundError = require("../exceptions/NotFoundError");
 const AuthorizationError = require("../exceptions/AuthorizationError");
 
-const createPostsService = (postsModel) => {
+const createPostsService = (postsModel, collaborationsService) => {
   const create = async ({ title, tags, body, author }) => {
     const id = await postsModel.create({ title, tags, body, author });
 
@@ -13,12 +13,16 @@ const createPostsService = (postsModel) => {
     return id;
   };
 
-  const getAll = async (author) => {
-    const post = await postsModel.findAll(author);
-    return post;
+  const getAll = async (credentialId) => {
+    const posts = await postsModel.findAll(credentialId);
+    return posts;
   };
 
-  const getById = async (id) => await postsModel.findById(id);
+  const getById = async (id) => {
+    const post = await postsModel.findById(id);
+
+    return post;
+  };
 
   const update = async (id, { title, tags, body }) => {
     const updated = await postsModel.update(id, { title, tags, body });
@@ -56,7 +60,22 @@ const createPostsService = (postsModel) => {
     return post;
   };
 
-  return { create, getAll, getById, update, destroy, verifyPostAuthor };
+  const verifyPostAccess = async (postId, userId) => {
+    try {
+      await verifyPostAuthor(postId, userId);      
+    } catch (error) {
+      if (error instanceof NotFoundError) {
+        throw error;
+      }
+      try {
+      await collaborationsService.verifyCollaborator(postId, userId);
+      } catch {
+        throw error;
+      }
+    }
+  };
+
+  return { create, getAll, getById, update, destroy, verifyPostAuthor, verifyPostAccess };
 };
 
 module.exports = createPostsService;

@@ -4,8 +4,8 @@ const catchAsync = require("../utils/catchAsync");
 const createPostsController = (postsService) => {
   const createPost = catchAsync(async (req, res) => {
     const { title, tags, body } = req.body;
-    const { id: credentialId } = req.user;
-    const id = await postsService.create({ title, tags, body, author: credentialId });
+    const { id: author } = req.user;
+    const id = await postsService.create({ title, tags, body, author });
 
     res.status(201).json({
       status: "success",
@@ -19,6 +19,7 @@ const createPostsController = (postsService) => {
   const getAllPosts = catchAsync(async (req, res) => {
     const { id: credentialId } = req.user;
     const posts = await postsService.getAll(credentialId);
+ 
     res.json({
       status: "success",
       data: {
@@ -28,11 +29,11 @@ const createPostsController = (postsService) => {
   });
 
   const getPostById = catchAsync(async (req, res) => {
-    const { id } = req.params;
+    const { id: postId } = req.params;
     const { id: credentialId } = req.user;
 
-    await postsService.verifyPostAuthor(id, credentialId);
-    const post = await postsService.getById(id);
+    await postsService.verifyPostAccess(postId, credentialId);
+    const post = await postsService.getById(postId);
 
     if (!post) {
       throw new NotFoundError("Post id not found");
@@ -51,7 +52,7 @@ const createPostsController = (postsService) => {
     const { title, tags, body } = req.body;
     const { id: credentialId } = req.user;
 
-    await postsService.verifyPostAuthor(id, credentialId);
+    await postsService.verifyPostAccess(id, credentialId);
 
     const updated = await postsService.update(id, { title, tags, body });
 
@@ -67,9 +68,9 @@ const createPostsController = (postsService) => {
 
   const deletePost = catchAsync(async (req, res) => {
     const { id } = req.params;
-    const { id: credentialId } = req.user;
+    const { id: author } = req.user;
 
-    await postsService.verifyPostAuthor(id, credentialId);
+    await postsService.verifyPostAuthor(id, author);
 
     const deleted = await postsService.destroy(id);
 

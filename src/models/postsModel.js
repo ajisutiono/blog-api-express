@@ -19,7 +19,7 @@ const postsModel = {
 
   async findAll(author) {
     const query = {
-      text: "SELECT * FROM posts WHERE author = $1",
+      text: "SELECT p.* FROM posts p LEFT JOIN collaborations c ON c.post_id = p.id WHERE p.author = $1 OR c.user_id = $1 GROUP BY p.id",
       values: [author],
     };
     const result = await pool.query(query);
@@ -29,7 +29,7 @@ const postsModel = {
 
   async findById(id) {
     const query = {
-      text: "SELECT * FROM posts WHERE id=$1",
+      text: "SELECT posts.*, users.username FROM posts LEFT JOIN users ON users.id = posts.author WHERE posts.id = $1",
       values: [id],
     };
 

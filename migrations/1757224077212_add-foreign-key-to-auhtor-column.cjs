@@ -12,7 +12,7 @@ exports.up = (pgm) => {
   // add foreign key to author column in posts table
   pgm.addConstraint(
     "posts",
-    "fk_posts.auhtor_users.id",
+    "fk_posts.author_users.id",
     "FOREIGN KEY(author) REFERENCES users(id) ON DELETE CASCADE"
   );
 };
